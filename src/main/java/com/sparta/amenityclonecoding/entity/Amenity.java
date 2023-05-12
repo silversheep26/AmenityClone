@@ -1,0 +1,48 @@
+package com.sparta.amenityclonecoding.entity;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import javax.persistence.*;
+import java.util.List;
+import java.util.ArrayList;
+
+
+@Getter
+@Entity(name="TB_AMENITY")
+@NoArgsConstructor
+public class Amenity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long amenityId;
+
+    @Column(nullable = false)
+    private String amenityLocation;
+
+    @Column(nullable = false)
+    private String amenityDetailLocation;
+
+    @Column(nullable = false)
+    private String amenityCategory;
+
+    @Column(nullable = false)
+    private String amenityCommon;
+
+    @Column(nullable = false)
+    private String amenityIn;
+
+    @Column(nullable = false)
+    private String amenityLikeCnt;
+
+    @OneToMany(mappedBy = "amenity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<AmenityImg> amenityImgList = new ArrayList<>();
+
+    //room은 객실 상세 정보를 의미함
+    @OneToMany(mappedBy = "amenity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Room> roomList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "amenity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Review> reviewList = new ArrayList<>();
+
+
+}
