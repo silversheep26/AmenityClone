@@ -26,4 +26,9 @@ public class Review {
     // reviewImg join
     @OneToMany(mappedBy = "review",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ReviewImg> reviewImgList = new ArrayList<>();
+
+    public Review(int reviewStar, Amenity amenity) {
+        this.reviewStar = reviewStar;
+        this.amenity = amenity;
+    }
 }
