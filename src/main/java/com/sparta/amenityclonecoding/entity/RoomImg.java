@@ -21,4 +21,8 @@ public class RoomImg {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roomId", nullable = false)
     private Room room;
+
+    public RoomImg(String roomUrl) {
+        this.roomUrl = roomUrl;
+    }
 }
