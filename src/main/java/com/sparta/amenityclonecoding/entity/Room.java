@@ -36,4 +36,11 @@ public class Room {
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<RoomImg> roomImgList = new ArrayList<>();
 
+    public Room(String roomNm, String roomPrice, String roomUrl, String roomChk, Amenity amenity) {
+        this.roomNm = roomNm;
+        this.roomPrice = roomPrice;
+        this.roomUrl = roomUrl;
+        this.roomChk = roomChk;
+        this.amenity = amenity;
+    }
 }

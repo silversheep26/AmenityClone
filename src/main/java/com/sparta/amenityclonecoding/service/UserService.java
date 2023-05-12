@@ -33,9 +33,6 @@ public class UserService {
     @Transactional
     public ResponseDto signup(UserRequestDto requestDto) {
         String userEmail = requestDto.getUserEmail();
-//        String userShoeSize = requestDto.getUserShoeSize();
-//        String userUrl = requestDto.getUserUrl();
-//        String userAddr = requestDto.getUserAddr();
         String userPassword = passwordEncoder.encode(requestDto.getUserPassword());
         String userRole = requestDto.getUserRole();
 

@@ -43,4 +43,11 @@ public class Orders extends Timestamped {
     // room join
 
 
+    public Orders(int reservationStartDate, int reservationEndDate, int reservationMakeDate, int ordersCost, double ordersDiscount) {
+        this.reservationStartDate = reservationStartDate;
+        this.reservationEndDate = reservationEndDate;
+        this.reservationMakeDate = reservationMakeDate;
+        this.ordersCost = ordersCost;
+        this.ordersDiscount = ordersDiscount;
+    }
 }

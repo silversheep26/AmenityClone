@@ -32,7 +32,14 @@ public class Amenity {
     private String amenityIn;
 
     @Column(nullable = false)
-    private String amenityLikeCnt;
+    private Long amenityLikeCnt;
+
+    @Column(nullable = false)
+    private String amenityPeople;
+
+    @Column(nullable = false)
+    private String amenityEtc;
+
 
     @OneToMany(mappedBy = "amenity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<AmenityImg> amenityImgList = new ArrayList<>();
@@ -44,5 +51,12 @@ public class Amenity {
     @OneToMany(mappedBy = "amenity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Review> reviewList = new ArrayList<>();
 
-
+    public Amenity(String amenityLocation, String amenityDetailLocation, String amenityCategory, String amenityCommon, String amenityIn, Long amenityLikeCnt) {
+        this.amenityLocation = amenityLocation;
+        this.amenityDetailLocation = amenityDetailLocation;
+        this.amenityCategory = amenityCategory;
+        this.amenityCommon = amenityCommon;
+        this.amenityIn = amenityIn;
+        this.amenityLikeCnt = amenityLikeCnt;
+    }
 }
