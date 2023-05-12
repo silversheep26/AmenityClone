@@ -24,4 +24,7 @@ public class AmenityImg {
     @JoinColumn(name = "amenityId", nullable = false)
     private Amenity amenity;
 
+    public AmenityImg(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
