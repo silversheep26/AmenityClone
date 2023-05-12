@@ -18,6 +18,6 @@ public class ReviewImg {
 
     // review 하나에 reviewImage 여러개
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review", nullable = false)
-    private ReviewImg reviewImg;
+    @JoinColumn(name = "reviewId", nullable = false)
+    private Review review;
 }

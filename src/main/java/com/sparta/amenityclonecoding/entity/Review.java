@@ -20,8 +20,8 @@ public class Review {
 
     // amenity join
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewId", nullable = false)
-    private Review review;
+    @JoinColumn(name = "amenityId", nullable = false)
+    private Amenity amenity;
 
     // reviewImg join
     @OneToMany(mappedBy = "review",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
