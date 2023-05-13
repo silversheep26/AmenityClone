@@ -17,11 +17,13 @@ public class ReviewDto {
     private double reviewStar;
     private double reviewScore;
     private String reviewContents;
+    private String reviewEmail;
     private List<ReviewImgDto> reviewImgList = new ArrayList<>();
 
     public ReviewDto(Review review) {
         this.reviewStar = review.getReviewStar();
         this.reviewScore = review.getReviewScore();
         this.reviewContents = review.getReviewContents();
+        this.reviewEmail = review.getReviewEmail();
     }
 }
