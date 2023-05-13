@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequestDto {
-    @Size(min = 4, max = 10, message = "id는 4 이상, 10 이하만 가능합니다.")
     @Pattern(regexp = "^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z0-9\\-]+$", message = "이메일 형식에 맞춰 작성해주세요.")
     @NotNull(message = "id를 입력해주세요")
     private String userEmail;

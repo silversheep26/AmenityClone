@@ -53,9 +53,9 @@ public class UserService {
             role =  UserRole.USER;
         }
 
-//        User user = new User(userEmail, userShoeSize, userAddr, userPassword, userUrl, role);
+        User user = new User(userEmail, userPassword, role);
 
-//        userRepository.save(user);
+        userRepository.save(user);
 
         return new ResponseDto("회원가입이 성공했습니다.", HttpStatus.OK);
     }
