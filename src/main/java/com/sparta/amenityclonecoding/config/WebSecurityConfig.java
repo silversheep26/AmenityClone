@@ -73,10 +73,7 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/post").permitAll()
-                .antMatchers("/post/search").permitAll()
-                .antMatchers(PERMIT_URL_ARRAY).permitAll()
+                .antMatchers("/api/user/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -20,6 +20,6 @@ public class UserRequestDto {
     @NotNull(message = "password를 입력해주세요")
     private String userPassword;
     private String userRole;
-    private String sellerToken = "";
+    private String adminToken = "";
     private String userNickNm;
 }
