@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity(name = "TB_USER")
@@ -25,6 +27,10 @@ public class User extends Timestamped{
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
+
+    @OneToMany(mappedBy = "reserve", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Reserve> reserveList = new ArrayList<>();
+
 
     public User(String userEmail, String userPassword, UserRole role) {
 //        this.userKakaoId = userKakaoId;

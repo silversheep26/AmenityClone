@@ -42,7 +42,7 @@ public class Amenity {
 
     @Column(nullable = false)
     private Long amenityType;
-
+    /*BED TYPE*/
     @Column(nullable = false)
     private String amenityVal;
 
