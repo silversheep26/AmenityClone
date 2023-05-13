@@ -15,8 +15,15 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
-    @Column(nullable = false, unique = true)
-    private int reviewStar;
+    @Column(nullable = false)
+    private double reviewStar;
+
+    @Column(nullable = false)
+    private double reviewScore;
+
+    @Column(nullable = false)
+    private String reviewContents;
+
 
     // amenity join
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,8 +34,9 @@ public class Review {
     @OneToMany(mappedBy = "review",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ReviewImg> reviewImgList = new ArrayList<>();
 
-    public Review(int reviewStar, Amenity amenity) {
+    public Review(double reviewStar, double reviewScore, String reviewContents) {
         this.reviewStar = reviewStar;
-        this.amenity = amenity;
+        this.reviewScore = reviewScore;
+        this.reviewContents = reviewContents;
     }
 }

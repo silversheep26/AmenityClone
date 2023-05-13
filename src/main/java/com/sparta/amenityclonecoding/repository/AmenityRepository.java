@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface AmenityRepository extends JpaRepository<Amenity, Long> {
-
+    Amenity findAmenityByAmenityId(Long amenityId);
     List<Amenity> findAmenityByAmenityCategory(String amenityCategory);
     List<Amenity> findAmenityByAmenityTypeAndAmenityLocationAndAmenityDetailLocation(Long amenityType, String Location, String LocationDetail );
 
