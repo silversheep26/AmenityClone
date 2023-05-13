@@ -26,7 +26,7 @@ import static com.sparta.amenityclonecoding.util.JwtUtil.REFRESH_KEY;
 public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
-    private static final String SELLER_TOKEN = "sellerTest";
+    private static final String ADMIN_TOKEN = "adminToken";
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
@@ -45,7 +45,7 @@ public class UserService {
         UserRole role;
 
         if (userRole.equals("admin")) {
-            if (!SELLER_TOKEN.equals(requestDto.getSellerToken())) {
+            if (!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {
                 return new ResponseDto("토큰값이 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
             }
             role =  UserRole.ADMIN;
