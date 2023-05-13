@@ -42,6 +42,7 @@ public class AmenityService {
         List<Room> roomList = roomRepository.findRoomByAmenity_AmenityId(amenityId);
         List<RoomImgDto> roomImgDtoList = null;
         List<RoomDto> roomDtoList = null;
+
         //객실정보당 img url 값 mapping
         for(Room room: roomList) {
             RoomDto roomDto = new RoomDto(room);
@@ -114,16 +115,21 @@ public class AmenityService {
         List<Amenity> amenityList = null;
         List<AmenityImgDto> amenityImgDtoList = null;
         List<AmenityDto> amenityDtoList = new ArrayList<>();
+
         Long amenityType = amenityRequestDto.getAmenityType();
         String amenityLocation = amenityRequestDto.getAmenityLocation();
         String amenityDetailLocation = amenityRequestDto.getAmenityDetailLocation();
+        String amenityCategory = amenityRequestDto.getAmenityCategory();
+        String amenityPeople = amenityRequestDto.getAmenityPeople();
+        String amenityVal = amenityRequestDto.getAmenityVal();
+
+
         String amenityCommon = String.join(", ", amenityRequestDto.getAmenityCommon());
         String amenityIn = String.join(", ", amenityRequestDto.getAmenityIn());
         String amenityEtc = String.join(", ", amenityRequestDto.getAmenityEtc());
 
         amenityList = amenityRepository.searchFilter(amenityType, amenityLocation, amenityDetailLocation,
-                amenityRequestDto.getAmenityCategory(), amenityRequestDto.getAmenityPeople(),
-                amenityRequestDto.getAmenityVal(), amenityCommon, amenityIn, amenityEtc);
+                amenityCategory, amenityPeople, amenityVal, amenityCommon, amenityIn, amenityEtc);
 
         for(Amenity amenity: amenityList) {
             AmenityDto amenityDto = new AmenityDto(amenity);
