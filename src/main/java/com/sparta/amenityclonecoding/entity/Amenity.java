@@ -51,6 +51,9 @@ public class Amenity {
     @Column(nullable = false)
     private String amenityAddr2; // 시 또는 구
 
+    @Column(nullable = false)
+    private String amenityNm;
+
     @OneToMany(mappedBy = "amenity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<AmenityImg> amenityImgList = new ArrayList<>();
 

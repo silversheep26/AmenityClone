@@ -24,6 +24,7 @@ public class AmenityDto {
     private String amenityVal;
     private String amenityAddr;
     private String amenityAddr2;
+    private String amenityNm;
     private List<AmenityImgDto> amenityImgDtoList = new ArrayList<>();
 
     public AmenityDto(Amenity amenity) {

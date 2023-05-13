@@ -38,9 +38,9 @@ public class UserController {
         return userService.login(requestDto, response);
     }
 
-    @GetMapping("/logout")
-    public ResponseDto logout(UserRequestDto requestDto) {
-       return userService.logout(requestDto);
+    @GetMapping("/logout/{userEmail}")
+    public ResponseDto logout(@PathVariable String userEmail) {
+       return userService.logout(userEmail);
     }
 
 
