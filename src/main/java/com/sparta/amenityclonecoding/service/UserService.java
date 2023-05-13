@@ -110,7 +110,7 @@ public class UserService {
 
 
     @Transactional
-    public ResponseDto logOut(UserRequestDto requestDto) {
+    public ResponseDto logout(UserRequestDto requestDto) {
         RefreshToken refreshToken = refreshTokenRepository.findRefreshTokenByUserEmail(requestDto.getUserEmail())
                 .orElseThrow( () -> new IllegalArgumentException("리프레시 토큰 없습니다~"));
 
