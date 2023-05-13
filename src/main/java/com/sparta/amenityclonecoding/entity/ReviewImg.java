@@ -6,14 +6,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@Entity(name = "TB_reviewImg")
+@Entity(name = "TB_REVIEWIMG")
 @NoArgsConstructor
 public class ReviewImg {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewImgId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String reviewingImgUrl;
 
     // review 하나에 reviewImage 여러개

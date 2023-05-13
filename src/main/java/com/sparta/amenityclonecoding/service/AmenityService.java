@@ -83,7 +83,7 @@ public class AmenityService {
         List<Amenity> amenityList = null;
         List<AmenityImgDto> amenityImgDtoList = null;
         List<AmenityDto> amenityDtoList = new ArrayList<>();
- 
+
         switch (amenityType.toString()) {
             case "0": //호텔
                 amenityList = amenityRepository.findAmenityByAmenityTypeAndAmenityLocationAndAmenityDetailLocation(amenityType, "서울", "0");

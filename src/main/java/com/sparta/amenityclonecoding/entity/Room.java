@@ -23,9 +23,6 @@ public class Room {
     private String roomPrice;
 
     @Column(nullable = false)
-    private String roomUrl;
-
-    @Column(nullable = false)
     private String roomChk;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,7 +36,6 @@ public class Room {
     public Room(String roomNm, String roomPrice, String roomUrl, String roomChk, Amenity amenity) {
         this.roomNm = roomNm;
         this.roomPrice = roomPrice;
-        this.roomUrl = roomUrl;
         this.roomChk = roomChk;
         this.amenity = amenity;
     }

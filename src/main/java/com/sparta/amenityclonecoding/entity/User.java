@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@Entity(name = "TB_user")
+@Entity(name = "TB_USER")
 @NoArgsConstructor
 public class User extends Timestamped{
     @Id

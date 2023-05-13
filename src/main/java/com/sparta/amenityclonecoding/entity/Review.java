@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Entity(name="TB_review")
+@Entity(name="TB_REVIEW")
 @NoArgsConstructor
 public class Review {
     @Id
@@ -24,6 +24,8 @@ public class Review {
     @Column(nullable = false)
     private String reviewContents;
 
+    @Column(nullable = false)
+    private String reviewEmail;
 
     // amenity join
     @ManyToOne(fetch = FetchType.LAZY)

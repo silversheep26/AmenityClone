@@ -15,14 +15,12 @@ import java.util.List;
 public class RoomDto {
     private String roomNm;
     private String roomPrice;
-    private String roomUrl;
     private String roomChk;
     private List<RoomImgDto> roomImgDtoList = new ArrayList<>();
 
     public RoomDto(Room room) {
         this.roomNm = room.getRoomNm();
         this.roomPrice = room.getRoomPrice();
-        this.roomUrl = room.getRoomUrl();
         this.roomChk = room.getRoomChk();
     }
 }
