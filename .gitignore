@@ -27,7 +27,8 @@ out/
 !**/src/test/**/out/
 application.yml
 application.properties
-
+###query dsl
+/src/main/generated
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
