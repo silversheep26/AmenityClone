@@ -22,6 +22,9 @@ public class Room {
     @Column(nullable = false)
     private String roomPrice;
 
+    /*
+    * 예약 가능 여부
+    * */
     @Column(nullable = false)
     private String roomChk;
 

@@ -27,6 +27,9 @@ public class User extends Timestamped{
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
+//
+//    @OneToMany(mappedBy = "reserve", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+//    private List<Reserve> reserveList = new ArrayList<>();
 
     // review join (uer(1) : review(M))
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
