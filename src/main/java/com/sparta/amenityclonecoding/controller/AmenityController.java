@@ -40,7 +40,7 @@ public class AmenityController {
 
     @Operation(summary = "호텔/펜션 선택 목록 보기(필터) API" , description = "호텔/펜션에서 조건 선택하고 클릭했을 때")
     @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "호텔/펜션에서 조건 선택하고 클릭했을 때")})
-    @PostMapping("/hotel/filterAmenity")
+    @PostMapping("/filterAmenity")
     public List<AmenityDto> getAmenityFilter(@RequestBody AmenityRequestDto reqeustDto) {
         return amenityService.getAmenityFilter(reqeustDto);
     }

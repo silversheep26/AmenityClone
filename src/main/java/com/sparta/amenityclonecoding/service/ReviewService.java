@@ -33,7 +33,7 @@ public class ReviewService {
         User member = userRepository.findUserByUserEmail(user.getUserEmail()).orElseThrow(
                 () -> new IllegalArgumentException("로그인 후 이용 가능합니다.")
         );
-        List<String> imgPaths = s3Service.upload(image);
+        List<String> imgPaths = s3Service.uploadImage(image);
         String reviewTitle = reviewDto.getReviewTitle();
         double reviewStar = reviewDto.getReviewStar();
         double reviewScore = reviewDto.getReviewScore();

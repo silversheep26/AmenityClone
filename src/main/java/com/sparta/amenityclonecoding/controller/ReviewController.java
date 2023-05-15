@@ -18,7 +18,10 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ReviewController {
+
     private final ReviewService reviewService;
+    private final S3Service s3Service;
+
 
 
     @Operation(summary = "숙박업소 상세 조회 내  로그인 유저만 리뷰 작성 API" , description = "숙박업소 리뷰 작성")
