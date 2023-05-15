@@ -45,4 +45,8 @@ public class AmenityController {
         return amenityService.getAmenityFilter(reqeustDto);
     }
 
+    @GetMapping("/search")
+    public List<AmenityDto> searchAmenity(@RequestParam("keyword") String keyword) {
+        return amenityService.search(keyword);
+    }
 }
