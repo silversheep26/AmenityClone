@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import java.util.List;
 
 public class AmenitySearchImpl extends QuerydslRepositorySupport implements AmenitySearch {
+
     public AmenitySearchImpl() {
         super(Amenity.class);
     }
@@ -36,6 +37,17 @@ public class AmenitySearchImpl extends QuerydslRepositorySupport implements Amen
         booleanBuilder.or(amenity.amenityEtc.contains(amenityEtc));
         query.where(booleanBuilder);
 
+        return query.fetch();
+    }
+
+    @Override
+    public List<Amenity> findByKeyword(String keyword) {
+        QAmenity amenity = QAmenity.amenity;
+        JPQLQuery<Amenity> query = from(amenity);
+
+        query.where(amenity.amenityAddr.contains(keyword)
+                        .or(amenity.amenityAddr2.contains(keyword))
+                        .or(amenity.amenityNm.contains(keyword)));
         return query.fetch();
     }
 }
