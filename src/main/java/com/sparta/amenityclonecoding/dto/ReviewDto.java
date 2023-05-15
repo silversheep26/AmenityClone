@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class ReviewDto {
+    private String reviewTitle;
     private double reviewStar;
     private double reviewScore;
     private String reviewContents;
@@ -21,9 +21,10 @@ public class ReviewDto {
     private List<ReviewImgDto> reviewImgList = new ArrayList<>();
 
     public ReviewDto(Review review) {
+        this.reviewTitle = review.getReviewTitle();
         this.reviewStar = review.getReviewStar();
         this.reviewScore = review.getReviewScore();
         this.reviewContents = review.getReviewContents();
-        this.reviewEmail = review.getReviewEmail();
+        this.reviewEmail = review.getUser().getUserEmail();
     }
 }

@@ -44,5 +44,6 @@ public class AmenityDetailDto {
         this.amenityVal = amenity.getAmenityVal();
         this.amenityAddr = amenity.getAmenityAddr();
         this.amenityAddr2 = amenity.getAmenityAddr2();
+        this.amenityNm = amenity.getAmenityNm();
     }
 }

@@ -64,12 +64,13 @@ public class Amenity {
     @OneToMany(mappedBy = "amenity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Review> reviewList = new ArrayList<>();
 
-    public Amenity(String amenityLocation, String amenityDetailLocation, String amenityCategory, String amenityCommon, String amenityIn, Long amenityLikeCnt) {
+    public Amenity(String amenityLocation, String amenityDetailLocation, String amenityCategory, String amenityCommon, String amenityIn, Long amenityLikeCnt, String amenityNm) {
         this.amenityLocation = amenityLocation;
         this.amenityDetailLocation = amenityDetailLocation;
         this.amenityCategory = amenityCategory;
         this.amenityCommon = amenityCommon;
         this.amenityIn = amenityIn;
         this.amenityLikeCnt = amenityLikeCnt;
+        this.amenityNm = amenityNm;
     }
 }
