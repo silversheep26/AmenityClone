@@ -21,7 +21,8 @@ public class ReviewImg {
     @JoinColumn(name = "reviewId", nullable = false)
     private Review review;
 
-    public ReviewImg(String reviewingImgUrl) {
+    public ReviewImg(String reviewingImgUrl, Review review) {
         this.reviewingImgUrl = reviewingImgUrl;
+        this.review = review;
     }
 }

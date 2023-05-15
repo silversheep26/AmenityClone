@@ -16,6 +16,9 @@ public class Review {
     private Long reviewId;
 
     @Column(nullable = false)
+    private String reviewTitle;
+
+    @Column(nullable = false)
     private double reviewStar;
 
     @Column(nullable = false)
@@ -24,8 +27,14 @@ public class Review {
     @Column(nullable = false)
     private String reviewContents;
 
-    @Column(nullable = false)
-    private String reviewEmail;
+//    user 에 있는 email 쓸 예정
+//    @Column(nullable = false)
+//    private String reviewEmail;
+
+    // user join
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
     // amenity join
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,9 +45,11 @@ public class Review {
     @OneToMany(mappedBy = "review",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ReviewImg> reviewImgList = new ArrayList<>();
 
-    public Review(double reviewStar, double reviewScore, String reviewContents) {
+    public Review(String reviewTitle, double reviewStar, double reviewScore, String reviewContents, User user) {
+        this.reviewTitle = reviewTitle;
         this.reviewStar = reviewStar;
         this.reviewScore = reviewScore;
         this.reviewContents = reviewContents;
+        this.user = user;
     }
 }

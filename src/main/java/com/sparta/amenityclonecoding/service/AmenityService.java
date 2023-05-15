@@ -24,7 +24,7 @@ public class AmenityService {
 
 
 
-    // 하나 눌렀을 때
+    // 하나 눌렀을 때 :
     @Transactional(readOnly = true)
     public AmenityDetailDto getAmenityDetail(Long amenityId) {
         Amenity amenity = amenityRepository.findAmenityByAmenityId(amenityId);
@@ -106,11 +106,9 @@ public class AmenityService {
             for (AmenityImg img : amenityImgList) {
                 amenityImgDtoList.add(new AmenityImgDto(img));
             }
-
             amenityDto.setAmenityImgDtoList(amenityImgDtoList);
             amenityDtoList.add(amenityDto);
         }
-
         return amenityDtoList;
     }
 
