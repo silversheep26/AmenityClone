@@ -119,22 +119,8 @@ public class AmenityService {
         List<AmenityImgDto> amenityImgDtoList = null;
         List<AmenityDto> amenityDtoList = new ArrayList<>();
 
-//        Long amenityType = amenityRequestDto.getAmenityType();
-//        String amenityLocation = amenityRequestDto.getAmenityLocation();
-//        String amenityDetailLocation = amenityRequestDto.getAmenityDetailLocation();
-//        String amenityCategory = amenityRequestDto.getAmenityCategory();
-//        String amenityPeople = amenityRequestDto.getAmenityPeople();
-//        String amenityVal = amenityRequestDto.getAmenityVal();
-//
-//
-//        String amenityCommon = String.join(", ", amenityRequestDto.getAmenityCommon());
-//        String amenityIn = String.join(", ", amenityRequestDto.getAmenityIn());
-//        String amenityEtc = String.join(", ", amenityRequestDto.getAmenityEtc());
-
         amenityList = amenityRepository.searchFilter(amenityRequestDto);
 
-//        amenityList = amenityRepository.searchFilter(amenityType, amenityLocation, amenityDetailLocation,
-//                amenityCategory, amenityPeople, amenityVal, amenityCommon, amenityIn, amenityEtc);
 
         for (Amenity amenity : amenityList) {
             AmenityDto amenityDto = new AmenityDto(amenity);
