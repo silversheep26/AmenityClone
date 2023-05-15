@@ -26,6 +26,7 @@ public class AmenityDetailDto {
     private String amenityAddr;
     private String amenityAddr2;
     private String amenityNm;
+
     private List<AmenityImgDto> amenityImgDtoList = new ArrayList<>();
     private List<RoomDto> roomDtoList = new ArrayList<>();
     private List<ReviewDto> reviewDtoList = new ArrayList<>();
