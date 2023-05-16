@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReviewImgDto {
     private String reviewingImgUrl;
+    private Long imgCnt;
 
     public ReviewImgDto(ReviewImg reviewImg) {
         this.reviewingImgUrl = reviewImg.getReviewingImgUrl();
+        this.imgCnt = reviewImg.getImgCnt();
     }
 }
