@@ -57,6 +57,8 @@ dependencies {
 
     //스웨거 관련
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version:'1.6.9'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    compileOnly group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 
     //QUERY DSL
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"

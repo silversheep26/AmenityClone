@@ -19,12 +19,17 @@ public class AmenityImg {
     @Column(nullable = false)
     private String imageUrl;
 
+    @Column(nullable = false)
+    private Long imgCnt;
+
     // amenity join
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "amenityId", nullable = false)
     private Amenity amenity;
 
-    public AmenityImg(String imageUrl) {
+    public AmenityImg(String imageUrl, Amenity amenity, Long imgCnt) {
         this.imageUrl = imageUrl;
+        this.amenity = amenity;
+        this.imgCnt = imgCnt;
     }
 }

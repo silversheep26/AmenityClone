@@ -11,7 +11,10 @@ import lombok.Setter;
 public class AmenityImgDto {
     private String imageUrl;
 
+    private Long imgCnt;
+
     public AmenityImgDto(AmenityImg amenityImg) {
         this.imageUrl = amenityImg.getImageUrl();
+        this.imgCnt = amenityImg.getImgCnt();
     }
 }
