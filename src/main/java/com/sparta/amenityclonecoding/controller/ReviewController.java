@@ -1,7 +1,9 @@
 package com.sparta.amenityclonecoding.controller;
 
 import com.sparta.amenityclonecoding.dto.ResponseDto;
+import com.sparta.amenityclonecoding.dto.ReviewDetailDto;
 import com.sparta.amenityclonecoding.dto.ReviewDto;
+import com.sparta.amenityclonecoding.dto.ReviewRequestDto;
 import com.sparta.amenityclonecoding.security.UserDetailsImpl;
 import com.sparta.amenityclonecoding.service.ReviewService;
 import com.sparta.amenityclonecoding.service.S3Service;
@@ -22,14 +24,22 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final S3Service s3Service;
 
+    // API 를 계층형으로 바꿔봤씀다! : amenity 의 detail 에서 review 목록 조회
+
+    @Operation(summary = "숙박업소 상세 조회 내 토큰값 없이 리뷰 조회 API" , description = "숙박업소 리뷰 조회")
+    @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "숙박업소 리뷰 조회")})
+    @GetMapping("/api/amenity/detail/{amenityId}/review")
+    public ReviewDetailDto getReview(@PathVariable("amenityId") Long amenityId, @RequestPart("imgUrl") List<MultipartFile> image) {
+        return reviewService.getReview(amenityId, image);
+    }
 
 
     @Operation(summary = "숙박업소 상세 조회 내  로그인 유저만 리뷰 작성 API" , description = "숙박업소 리뷰 작성")
     @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "숙박업소 리뷰 작성")})
-    @PostMapping("/api/detail/{amenityId}/review")
-    public ResponseDto writeReview(@PathVariable Long amenityId, @RequestBody ReviewDto reviewDto, @RequestPart("imgUrl") List<MultipartFile> image,
+    @PostMapping("/api/amenity/detail/{amenityId}/review")
+    public ResponseDto writeReview(@PathVariable Long amenityId, ReviewRequestDto requestDto, @RequestPart("img") List<MultipartFile> image,
                                    @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
-        return reviewService.writeReview(amenityId, reviewDto, image, userDetails.getUser());
+        return reviewService.writeReview(amenityId, requestDto, image, userDetails.getUser());
 //        return reviewService.writeReview(amenityId, image, userDetails.getUser());
     }
 }
