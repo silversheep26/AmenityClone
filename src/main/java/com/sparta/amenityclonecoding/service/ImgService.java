@@ -49,22 +49,35 @@ public class ImgService {
         Long mainCnt = 0L;
 
         for(String img: imgPaths) {
-            Long chkCnt = amenityImgRepository.findImg_AmenityId(mapId);
-
-            if(!chkCnt.equals(mainCnt)) {
-                mainCnt = chkCnt++;
-            }
+            Long chkCnt = 0L;
 
             switch (chkId) {
                 case "Amenity":
+                     chkCnt = amenityImgRepository.findImg_AmenityId(mapId);
+
+                    if(!chkCnt.equals(mainCnt)) {
+                        mainCnt = chkCnt++;
+                    }
                     AmenityImg amenityImg = new AmenityImg(img, amenity, mainCnt);
                     amenityImgRepository.save(amenityImg);
                     break;
                 case "Room":
+                    chkCnt = roomImgRepository.findImg_AmenityId(mapId);
+
+                    if(!chkCnt.equals(mainCnt)) {
+                        mainCnt = chkCnt++;
+                    }
                     RoomImg roomImg = new RoomImg(img, room, mainCnt);
+                    roomImgRepository.save(roomImg);
                     break;
                 case  "Review":
+                    chkCnt = reviewImgRepository.findImg_AmenityId(mapId);
+
+                    if(!chkCnt.equals(mainCnt)) {
+                        mainCnt = chkCnt++;
+                    }
                     ReviewImg reviewImg = new ReviewImg(img, review, mainCnt);
+                    reviewImgRepository.save(reviewImg);
                     break;
             }
         }
