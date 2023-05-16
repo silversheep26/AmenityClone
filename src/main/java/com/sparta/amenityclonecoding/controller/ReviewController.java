@@ -10,15 +10,18 @@ import com.sparta.amenityclonecoding.service.S3Service;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "ReviewController", description = "리뷰 Controller")
 public class ReviewController {
 
     private final ReviewService reviewService;
@@ -37,9 +40,11 @@ public class ReviewController {
     @Operation(summary = "숙박업소 상세 조회 내  로그인 유저만 리뷰 작성 API" , description = "숙박업소 리뷰 작성")
     @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "숙박업소 리뷰 작성")})
     @PostMapping("/api/amenity/detail/{amenityId}/review")
-    public ResponseDto writeReview(@PathVariable Long amenityId, ReviewRequestDto requestDto, @RequestPart("img") List<MultipartFile> image,
+    public ResponseDto writeReview(@PathVariable Long amenityId,
+                                   @RequestPart(value = "requestDto") ReviewRequestDto requestDto,
+                                   @RequestPart(value = "img", required = false) List<MultipartFile> img,
                                    @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
-        return reviewService.writeReview(amenityId, requestDto, image, userDetails.getUser());
+        return reviewService.writeReview(amenityId, requestDto, img, userDetails.getUser());
 //        return reviewService.writeReview(amenityId, image, userDetails.getUser());
     }
 }

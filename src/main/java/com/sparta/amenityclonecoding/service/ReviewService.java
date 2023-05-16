@@ -36,8 +36,10 @@ public class ReviewService {
         double reviewStar = requestDto.getReviewStar();
         double reviewScore = requestDto.getReviewScore();
         Amenity amenity = amenityRepository.findAmenityByAmenityId(amenityId);
-        List<Reserve> reservesList = reserveRepository.findReserveByAmenityIdAndUserEmailOrderByCreateDateDesc(amenityId, user.getUserId());
-        Review review = new Review(reviewTitle, reviewStar, reviewScore, reviewContents, user, amenity, reservesList.get(0));
+        List<Reserve> reservesList = reserveRepository.findReserveByAmenityIdAndUserEmailOrderByCreateDateDesc(amenityId, user.getUserEmail());
+        Review review = null;
+        if(reservesList.size() > 0)
+            review = new Review(reviewTitle, reviewStar, reviewScore, reviewContents, user, amenity, reservesList.get(0));
 
         Long mainCnt = 0L;
         Long chkCnt = 0L;
@@ -52,14 +54,6 @@ public class ReviewService {
         }
 
         return new ResponseDto("리뷰 작성 성공", HttpStatus.OK);
-    }
-
-    @Transactional
-    public void makeReviewImg(Review review, List<String> imgUrl) {
-//        for(String url: imgUrl) {
-//            ReviewImg reviewImg = new ReviewImg(url, review);
-//            reviewImgRepository.save(reviewImg);
-//        }
     }
 
 
