@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface ReserveRepository extends JpaRepository<Reserve, Long> {
     List<Reserve> findByUserId(Long userId);
+
+    List<Reserve> findReserveByAmenityIdAndUserEmailOrderByCreateDateDesc(Long amenityId, Long userId);
 }
