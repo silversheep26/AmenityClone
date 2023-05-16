@@ -28,8 +28,8 @@ public class AmenityDto {
     private List<AmenityImgDto> amenityImgDtoList = new ArrayList<>();
 
     public AmenityDto(Amenity amenity) {
-        this.amenityLocation = amenity.getAmenityLocation();
-        this.amenityDetailLocation = amenity.getAmenityDetailLocation();
+//        this.amenityLocation = amenity.getAmenityLocation();
+//        this.amenityDetailLocation = amenity.getAmenityDetailLocation();
         this.amenityCategory = amenity.getAmenityCategory();
         this.amenityCommon = amenity.getAmenityCommon();
         this.amenityIn = amenity.getAmenityIn();

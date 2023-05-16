@@ -50,7 +50,7 @@ public class ReviewService {
             }
             ReviewImg reviewImg = new ReviewImg(imgPaths.get(imgCnt), review, mainCnt);
         }
-        
+
         return new ResponseDto("리뷰 작성 성공", HttpStatus.OK);
     }
 

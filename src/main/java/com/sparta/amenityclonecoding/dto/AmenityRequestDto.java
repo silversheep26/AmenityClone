@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AmenityRequestDto {
     private Long amenityType;
-    private String amenityNm;
-    private String amenityLocation;
-    private String amenityDetailLocation;
+//    private String amenityNm;
+//    private String amenityLocation;
+//    private String amenityDetailLocation;
     private String amenityCategory;
     private String amenityPeople;
     private String amenityVal;

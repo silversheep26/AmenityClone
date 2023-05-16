@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +34,7 @@ public class AmenityService {
 
         //숙박업소 정보 img url mapping 준비
         List<AmenityImg> amenityImgList = amenityImgRepository.findAmenityImgByAmenity_AmenityId(amenityId);
-        List<AmenityImgDto> amenityImgDtoList = null;
+        List<AmenityImgDto> amenityImgDtoList = new ArrayList<>();
 
         //숙박업소 img url 리스트 매핑
         for (AmenityImg amenityImg : amenityImgList) {
@@ -43,8 +45,8 @@ public class AmenityService {
 
         //객실정보 + 객실정보 img url mapping 준비
         List<Room> roomList = roomRepository.findRoomByAmenity_AmenityId(amenityId);
-        List<RoomImgDto> roomImgDtoList = null;
-        List<RoomDto> roomDtoList = null;
+        List<RoomImgDto> roomImgDtoList = new ArrayList<>();
+        List<RoomDto> roomDtoList = new ArrayList<>();
 
         //객실정보당 img url 값 mapping
         for (Room room : roomList) {
@@ -60,8 +62,8 @@ public class AmenityService {
 
         //리뷰정보 + 리뷰정보 img url mapping 준비
         List<Review> reviewList = reviewRepository.findReviewByAmenity_AmenityId(amenityId);
-        List<ReviewImgDto> reviewImgDtoList = null;
-        List<ReviewDto> reviewDtoList = null;
+        List<ReviewImgDto> reviewImgDtoList = new ArrayList<>();
+        List<ReviewDto> reviewDtoList = new ArrayList<>();
         for (Review review : reviewList) {
             ReviewDto reviewDto = new ReviewDto(review);
             List<ReviewImg> reviewImgList = reviewImgRepository.findReviewImgByReview_ReviewId(review.getReviewId());
@@ -78,16 +80,13 @@ public class AmenityService {
         amenityDetailDto.setRoomDtoList(roomDtoList);
         amenityDetailDto.setReviewDtoList(reviewDtoList);
 
-
-
         return amenityDetailDto;
     }
 
     // 호텔과 펜션 목록 조회
     @Transactional(readOnly = true)
     public List<AmenityDto> getAmenityInfo(Long amenityType) {
-        List<Amenity> amenityList = null;
-        List<AmenityImgDto> amenityImgDtoList = null;
+        List<Amenity> amenityList = new ArrayList<>();
         List<AmenityDto> amenityDtoList = new ArrayList<>();
 
         switch (amenityType.toString()) {
@@ -100,23 +99,25 @@ public class AmenityService {
         }
 
         for (Amenity amenity : amenityList) {
+            List<AmenityImgDto> amenityImgDtoList = new ArrayList<>();
             AmenityDto amenityDto = new AmenityDto(amenity);
-
             List<AmenityImg> amenityImgList = amenityImgRepository.findAmenityImgByAmenity_AmenityId(amenity.getAmenityId());
             for (AmenityImg img : amenityImgList) {
                 amenityImgDtoList.add(new AmenityImgDto(img));
             }
+
             amenityDto.setAmenityImgDtoList(amenityImgDtoList);
             amenityDtoList.add(amenityDto);
         }
+
         return amenityDtoList;
     }
 
     // 호텔에서 적용 눌렀을 때
     @Transactional(readOnly = true)
     public List<AmenityDto> getAmenityFilter(AmenityRequestDto amenityRequestDto) {
-        List<Amenity> amenityList = null;
-        List<AmenityImgDto> amenityImgDtoList = null;
+        List<Amenity> amenityList = new ArrayList<>();
+        List<AmenityImgDto> amenityImgDtoList = new ArrayList<>();
         List<AmenityDto> amenityDtoList = new ArrayList<>();
 
         amenityList = amenityRepository.searchFilter(amenityRequestDto);
@@ -124,25 +125,45 @@ public class AmenityService {
 
         for (Amenity amenity : amenityList) {
             AmenityDto amenityDto = new AmenityDto(amenity);
-
-            List<AmenityImg> amenityImgList = amenityImgRepository.findAmenityImgByAmenity_AmenityId(amenity.getAmenityId());
-            for (AmenityImg img : amenityImgList) {
-                amenityImgDtoList.add(new AmenityImgDto(img));
+            amenityDtoList.add(amenityDto);
+            if(amenityImgDtoList.size() < 1) {
+                AmenityImg amenityImg = amenityImgRepository.findAmenityImgByAmenity_AmenityIdAndImgCnt(amenity.getAmenityId(), 0L);
+                AmenityImgDto amenityImgDto = new AmenityImgDto(amenityImg);
+                amenityImgDtoList.add(amenityImgDto);
             }
 
             amenityDto.setAmenityImgDtoList(amenityImgDtoList);
-            amenityDtoList.add(amenityDto);
         }
+
         return amenityDtoList;
     }
 
     @Transactional(readOnly = true)
     public List<AmenityDto> search(String keyword) {
-        List<AmenityDto> amenities = amenityRepository.findByKeyword(keyword)
-                .stream()
-                .map(AmenityDto::new)
-                .collect(Collectors.toList());
-        return amenities;
+//        List<AmenityDto> amenityDtoList = amenityRepository.findByKeyword(keyword)
+//                .stream()
+//                .map(AmenityDto::new)
+//                .collect(Collectors.toList());
+
+        List<Amenity> amenityList = amenityRepository.findByKeyword(keyword);
+        List<AmenityDto> amenityDtoList = new ArrayList<>();
+        List<AmenityImgDto> amenityImgDtoList = new ArrayList<>();
+
+        for (Amenity amenity : amenityList) {
+            AmenityDto amenityDto = new AmenityDto(amenity);
+            amenityDtoList.add(amenityDto);
+
+            if(amenityImgDtoList.size() < 1) {
+                AmenityImg amenityImg = amenityImgRepository.findAmenityImgByAmenity_AmenityIdAndImgCnt(amenity.getAmenityId(), 0L);
+                AmenityImgDto amenityImgDto = new AmenityImgDto(amenityImg);
+                amenityImgDtoList.add(amenityImgDto);
+            }
+
+            amenityDto.setAmenityImgDtoList(amenityImgDtoList);
+        }
+
+
+        return amenityDtoList;
     }
 
 }
