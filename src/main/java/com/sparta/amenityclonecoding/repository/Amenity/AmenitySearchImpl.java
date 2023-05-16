@@ -22,15 +22,15 @@ public class AmenitySearchImpl extends QuerydslRepositorySupport implements Amen
         QAmenity amenity = QAmenity.amenity;
         JPQLQuery<Amenity> query = from(amenity);
 
-        String amenityCommon = String.join(", ", amenityRequestDto.getAmenityCommon());
-        String amenityIn = String.join(", ", amenityRequestDto.getAmenityIn());
-        String amenityEtc = String.join(", ", amenityRequestDto.getAmenityEtc());
+        String amenityCommon = String.join(",", amenityRequestDto.getAmenityCommon());
+        String amenityIn = String.join(",", amenityRequestDto.getAmenityIn());
+        String amenityEtc = String.join(",", amenityRequestDto.getAmenityEtc());
 
         query.where(
                 amenityTypeEq(amenityRequestDto.getAmenityType(), amenity),
-                amenityNmEq(amenityRequestDto.getAmenityNm(), amenity),
-                amenityLocationEq(amenityRequestDto.getAmenityLocation(), amenity),
-                amenityDetailLocationEq(amenityRequestDto.getAmenityDetailLocation(), amenity),
+//                amenityNmEq(amenityRequestDto.getAmenityNm(), amenity),
+//                amenityLocationEq(amenityRequestDto.getAmenityLocation(), amenity),
+//                amenityDetailLocationEq(amenityRequestDto.getAmenityDetailLocation(), amenity),
                 amenityCategoryEq(amenityRequestDto.getAmenityCategory(), amenity),
                 amenityPeopleEq(amenityRequestDto.getAmenityPeople(), amenity),
                 amenityValEq(amenityRequestDto.getAmenityVal(), amenity),
@@ -64,17 +64,17 @@ public class AmenitySearchImpl extends QuerydslRepositorySupport implements Amen
         return amenity.amenityNm.eq(AmenityNm);
     }
 
-    private BooleanExpression amenityLocationEq(String amenityLocation, QAmenity amenity ) {
-        if(amenityLocation.isEmpty())
-            return null;
-        return amenity.amenityLocation.eq(amenityLocation);
-    }
-
-    private BooleanExpression amenityDetailLocationEq(String amenityDetailLocation, QAmenity amenity ) {
-        if(amenityDetailLocation.isEmpty())
-            return null;
-        return amenity.amenityDetailLocation.eq(amenityDetailLocation);
-    }
+//    private BooleanExpression amenityLocationEq(String amenityLocation, QAmenity amenity ) {
+//        if(amenityLocation.isEmpty())
+//            return null;
+//        return amenity.amenityLocation.eq(amenityLocation);
+//    }
+//
+//    private BooleanExpression amenityDetailLocationEq(String amenityDetailLocation, QAmenity amenity ) {
+//        if(amenityDetailLocation.isEmpty())
+//            return null;
+//        return amenity.amenityDetailLocation.eq(amenityDetailLocation);
+//    }
 
     private BooleanExpression amenityCategoryEq(String amenityCategory, QAmenity amenity ) {
         if(amenityCategory.isEmpty())
@@ -97,18 +97,18 @@ public class AmenitySearchImpl extends QuerydslRepositorySupport implements Amen
     private BooleanExpression amenityCommonEq(String amenityCommon, QAmenity amenity ) {
         if(amenityCommon.isEmpty())
             return null;
-        return amenity.amenityCommon.eq(amenityCommon);
+        return amenity.amenityCommon.contains(amenityCommon);
     }
 
     private BooleanExpression amenityInEq(String amenityIn, QAmenity amenity ) {
         if(amenityIn.isEmpty())
             return null;
-        return amenity.amenityIn.eq(amenityIn);
+        return amenity.amenityIn.contains(amenityIn);
     }
 
     private BooleanExpression amenityEtcEq(String amenityEtc, QAmenity amenity ) {
         if(amenityEtc.isEmpty())
             return null;
-        return amenity.amenityEtc.eq(amenityEtc);
+        return amenity.amenityEtc.contains(amenityEtc);
     }
 }

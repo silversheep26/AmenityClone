@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface AmenityImgRepository extends JpaRepository<AmenityImg, Long> {
+    AmenityImg findAmenityImgByAmenity_AmenityIdAndImgCnt(Long amenityId, Long ImgCnt);
     List<AmenityImg> findAmenityImgByAmenity_AmenityId(Long amenityId);
 
     @Query("select count(a) from TB_AMENITYIMG a where a.amenity.amenityId = :amenityId")

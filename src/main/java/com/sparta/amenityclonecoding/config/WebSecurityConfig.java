@@ -61,7 +61,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .antMatchers("/api/user/**").permitAll()
-                .antMatchers("/api/amenity/*").permitAll()
+                .antMatchers("/api/amenity/**").permitAll()
                 .antMatchers("/api/review/{amenityId}").permitAll()
                 .anyRequest().authenticated()
 
