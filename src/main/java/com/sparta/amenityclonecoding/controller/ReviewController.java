@@ -16,7 +16,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -41,10 +40,10 @@ public class ReviewController {
     @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "숙박업소 리뷰 작성")})
     @PostMapping("/api/amenity/detail/{amenityId}/review")
     public ResponseDto writeReview(@PathVariable Long amenityId,
-                                   @RequestPart(value = "requestDto") ReviewRequestDto requestDto,
-                                   @RequestPart(value = "img", required = false) List<MultipartFile> img,
+                                   @RequestPart ReviewRequestDto requestDto,
+                                   @RequestPart( value = "image", required = false) List<MultipartFile> image,
                                    @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
-        return reviewService.writeReview(amenityId, requestDto, img, userDetails.getUser());
+        return reviewService.writeReview(amenityId, requestDto, image, userDetails.getUser());
 //        return reviewService.writeReview(amenityId, image, userDetails.getUser());
     }
 }
