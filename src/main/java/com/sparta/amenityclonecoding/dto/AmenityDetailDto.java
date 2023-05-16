@@ -32,8 +32,8 @@ public class AmenityDetailDto {
     private List<ReviewDto> reviewDtoList = new ArrayList<>();
 
     public AmenityDetailDto(Amenity amenity) {
-        this.amenityLocation = amenity.getAmenityLocation();
-        this.amenityDetailLocation = amenity.getAmenityDetailLocation();
+//        this.amenityLocation = amenity.getAmenityLocation();
+//        this.amenityDetailLocation = amenity.getAmenityDetailLocation();
         this.amenityCategory = amenity.getAmenityCategory();
         this.amenityCommon = amenity.getAmenityCommon();
         this.amenityIn = amenity.getAmenityIn();
