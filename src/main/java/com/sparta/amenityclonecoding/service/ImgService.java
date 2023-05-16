@@ -32,54 +32,61 @@ public class ImgService {
     public ResponseDto uploadImg(Long mapId, List<MultipartFile> image, String chkId) throws IOException {
         List<String> imgPaths = s3Service.upload(image, chkId);
         Amenity amenity = null;
-        Room room = null;
-        Review review = null;
+        List<Room> roomList = null;
+        List<Review> reviewList = null;
 
         switch (chkId) {
             case "Amenity":
                 amenity = amenityRepository.findById(mapId).orElseThrow( () -> new IllegalArgumentException("매칭되는 ID가 없어요."));
                 break;
             case "Room":
-                room = roomRepository.findById(mapId).orElseThrow( () -> new IllegalArgumentException("매칭되는 ID가 없어요."));
+                roomList = roomRepository.findRoomByAmenity_AmenityId(mapId);
                 break;
             case  "Review":
-                review = reviewRepository.findById(mapId).orElseThrow( () -> new IllegalArgumentException("매칭되는 ID가 없어요."));
+                reviewList = reviewRepository.findReviewByAmenity_AmenityId(mapId);
                 break;
         }
+
         Long mainCnt = 0L;
+        Long chkCnt = 0L;
+        int imgCnt = 0;
 
-        for(String img: imgPaths) {
-            Long chkCnt = 0L;
+        switch (chkId) {
+            case "Amenity":
+                for(String img: imgPaths) {
+                    chkCnt = 0L;
 
-            switch (chkId) {
-                case "Amenity":
-                     chkCnt = amenityImgRepository.findImg_AmenityId(mapId);
+                    chkCnt = amenityImgRepository.findImg_AmenityId(mapId);
 
                     if(!chkCnt.equals(mainCnt)) {
                         mainCnt = chkCnt++;
                     }
                     AmenityImg amenityImg = new AmenityImg(img, amenity, mainCnt);
                     amenityImgRepository.save(amenityImg);
-                    break;
-                case "Room":
-                    chkCnt = roomImgRepository.findImg_AmenityId(mapId);
-
+                }
+                break;
+            case "Room":
+                for(Room room: roomList) {
+                    chkCnt = roomImgRepository.findImg_AmenityId(room.getRoomId());
                     if(!chkCnt.equals(mainCnt)) {
                         mainCnt = chkCnt++;
                     }
-                    RoomImg roomImg = new RoomImg(img, room, mainCnt);
+                    RoomImg roomImg = new RoomImg(imgPaths.get(imgCnt), room, mainCnt);
                     roomImgRepository.save(roomImg);
-                    break;
-                case  "Review":
-                    chkCnt = reviewImgRepository.findImg_AmenityId(mapId);
-
+                    imgCnt++;
+                }
+                break;
+            case  "Review":
+                for(Review review: reviewList) {
+                    chkCnt = reviewImgRepository.findImg_AmenityId(review.getReviewId());
                     if(!chkCnt.equals(mainCnt)) {
                         mainCnt = chkCnt++;
                     }
-                    ReviewImg reviewImg = new ReviewImg(img, review, mainCnt);
+                    ReviewImg reviewImg = new ReviewImg(imgPaths.get(imgCnt), review, mainCnt);
                     reviewImgRepository.save(reviewImg);
-                    break;
-            }
+                    imgCnt++;
+                }
+                break;
         }
 
         return new ResponseDto("사진 업로드 성공", HttpStatus.OK);
