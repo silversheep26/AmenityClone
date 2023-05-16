@@ -23,20 +23,23 @@ import java.util.List;
 public class ReserveController {
     private final ReserveService reserveService;
 
+    // 예약 조회
     @ResponseBody
     @GetMapping("/myreservelist")
     public List<ReserveResponseDto> getAmenityInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return reserveService.getReserveInfo(userDetails.getUser());
     }
 
-
-    @Operation(summary = "호텔/펜션 예약 조회 API" , description = "호텔/펜션에서 예약 조회 했을 때 ")
-    @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "호텔/펜션에서 예약내역 클릭했을 때")})
+    // 예약 등록
+    @Operation(summary = "호텔/펜션 예약 등록 API" , description = "호텔/펜션에서 예약 등록 했을 때 ")
+    @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "예약 등록할 때")})
     @PostMapping("/register")
     public ResponseDto setReserveInfo(@RequestBody ReserveRequestDto reserveRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         boolean ret = reserveService.setReserveInfo(reserveRequestDto,userDetails.getUser());
         return ret == true ? new ResponseDto("예약 성공", HttpStatus.OK) :new ResponseDto("예약 실패", HttpStatus.NOT_FOUND) ;
     }
+
+    // 예약 삭제
     @ResponseBody
     @DeleteMapping("/myreservelist/delete/{reserveId}")
     public ResponseDto deleteAmenityInfo(@PathVariable Long reserveId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
