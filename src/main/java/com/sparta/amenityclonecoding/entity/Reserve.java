@@ -25,16 +25,12 @@ public class Reserve {
     private String userEmail;
     @Column(nullable = false)
     private String payMethod;
-
     @Column(nullable = false)
     private Long amenityId;
     @Column(nullable = false)
     private Long roomId;
-
-
     @Column(nullable = false)
     private Long price;
-
     @Column(nullable = false)
     private String reserveStartDate;
     @Column(nullable = false)

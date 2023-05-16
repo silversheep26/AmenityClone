@@ -62,6 +62,7 @@ public class WebSecurityConfig {
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .antMatchers("/api/user/**").permitAll()
                 .antMatchers("/api/amenity/*").permitAll()
+                .antMatchers("/api/review/{amenityId}").permitAll()
                 .anyRequest().authenticated()
 
                 .and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -41,15 +41,21 @@ public class Review {
     @JoinColumn(name = "amenityId", nullable = false)
     private Amenity amenity;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Id", nullable = false)
+    private Reserve reserve;
+
     // reviewImg join
     @OneToMany(mappedBy = "review",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ReviewImg> reviewImgList = new ArrayList<>();
 
-    public Review(String reviewTitle, double reviewStar, double reviewScore, String reviewContents, User user) {
+    public Review(String reviewTitle, double reviewStar, double reviewScore, String reviewContents, User user, Amenity amenity, Reserve reserve) {
         this.reviewTitle = reviewTitle;
         this.reviewStar = reviewStar;
         this.reviewScore = reviewScore;
         this.reviewContents = reviewContents;
         this.user = user;
+        this.amenity = amenity;
+        this.reserve = reserve;
     }
 }

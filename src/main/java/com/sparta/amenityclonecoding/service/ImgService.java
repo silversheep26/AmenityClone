@@ -78,7 +78,7 @@ public class ImgService {
                 break;
             case  "Review":
                 for(Review review: reviewList) {
-                    chkCnt = reviewImgRepository.findImg_AmenityId(review.getReviewId());
+                    chkCnt = reviewImgRepository.findImg_ReviewId(review.getReviewId());
                     if(!chkCnt.equals(mainCnt)) {
                         mainCnt = chkCnt++;
                     }
