@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 public class RoomImgDto {
     private String roomUrl;
 
+    private Long imgCnt;
+
     public RoomImgDto(RoomImg roomImg) {
         this.roomUrl = roomImg.getRoomUrl();
+        this.imgCnt = roomImg.getImgCnt();
     }
 }

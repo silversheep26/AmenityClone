@@ -18,11 +18,16 @@ public class RoomImg {
     @Column(nullable = false)
     private String roomUrl;
 
+    @Column(nullable = false)
+    private Long imgCnt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roomId", nullable = false)
     private Room room;
 
-    public RoomImg(String roomUrl) {
+    public RoomImg(String roomUrl, Room room, Long imgCnt) {
         this.roomUrl = roomUrl;
+        this.room = room;
+        this.imgCnt = imgCnt;
     }
 }
