@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ReserveResponseDto {
+    private Long Id;
     private String username;
     private String payMethod;
     private String userEmail;
