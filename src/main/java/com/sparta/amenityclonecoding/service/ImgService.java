@@ -3,9 +3,12 @@ package com.sparta.amenityclonecoding.service;
 import com.sparta.amenityclonecoding.dto.ResponseDto;
 import com.sparta.amenityclonecoding.dto.ReviewDto;
 import com.sparta.amenityclonecoding.entity.*;
+import com.sparta.amenityclonecoding.exception.Message;
+import com.sparta.amenityclonecoding.exception.StatusEnum;
 import com.sparta.amenityclonecoding.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +32,7 @@ public class ImgService {
 
     // 리뷰 작성
     @Transactional
-    public ResponseDto uploadImg(Long mapId, List<MultipartFile> image, String chkId) throws IOException {
+    public ResponseEntity<Message> uploadImg(Long mapId, List<MultipartFile> image, String chkId) throws IOException {
         List<String> imgPaths = s3Service.upload(image, chkId);
         Amenity amenity = null;
         List<Room> roomList = null;
@@ -89,7 +92,8 @@ public class ImgService {
                 break;
         }
 
-        return new ResponseDto("사진 업로드 성공", HttpStatus.OK);
+        Message message = Message.setSuccess(StatusEnum.OK, "사진 업로드 성공");
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 }

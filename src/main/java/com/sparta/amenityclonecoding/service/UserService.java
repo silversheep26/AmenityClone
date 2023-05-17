@@ -6,11 +6,16 @@ import com.sparta.amenityclonecoding.dto.UserRequestDto;
 import com.sparta.amenityclonecoding.entity.RefreshToken;
 import com.sparta.amenityclonecoding.entity.User;
 import com.sparta.amenityclonecoding.entity.UserRole;
+import com.sparta.amenityclonecoding.exception.ApiException;
+import com.sparta.amenityclonecoding.exception.ExceptionEnum;
+import com.sparta.amenityclonecoding.exception.Message;
+import com.sparta.amenityclonecoding.exception.StatusEnum;
 import com.sparta.amenityclonecoding.repository.RefreshTokenRepository;
 import com.sparta.amenityclonecoding.repository.UserRepository;
 import com.sparta.amenityclonecoding.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +36,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public ResponseDto signup(UserRequestDto requestDto) {
+    public ResponseEntity<Message> signup(UserRequestDto requestDto) {
         String userEmail = requestDto.getUserEmail();
         String userPassword = passwordEncoder.encode(requestDto.getUserPassword());
         String userRole = requestDto.getUserRole();
@@ -39,14 +44,16 @@ public class UserService {
         Optional<User> found = userRepository.findUserByUserEmail(userEmail);
 
         if (found.isPresent()) {
-            return new ResponseDto("아이디 중복", HttpStatus.BAD_REQUEST);
+//            return new ResponseDto("아이디 중복", HttpStatus.BAD_REQUEST);
+            throw new ApiException(ExceptionEnum.DUPLICATED_USER_NAME);
         }
 
         UserRole role;
 
         if (userRole.equals("admin")) {
             if (!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {
-                return new ResponseDto("토큰값이 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
+//                return new ResponseDto("토큰값이 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
+                throw new ApiException(ExceptionEnum.NOT_MATCH_TOKEN);
             }
             role =  UserRole.ADMIN;
         }else{
@@ -57,24 +64,27 @@ public class UserService {
 
         userRepository.save(user);
 
-        return new ResponseDto("회원가입이 성공했습니다.", HttpStatus.OK);
+        Message message = Message.setSuccess(StatusEnum.OK, "회원가입성공");
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 
     @Transactional
-    public ResponseDto login(UserRequestDto requestDto, HttpServletResponse response) {
+    public ResponseEntity<Message> login(UserRequestDto requestDto, HttpServletResponse response) {
 
         String userEmail = requestDto.getUserEmail();
         String userPassword = requestDto.getUserPassword();
 
         try {
             User user = userRepository.findUserByUserEmail(userEmail).orElseThrow(
-                    () -> new IllegalArgumentException("없는 이메일 입니다.")
+                    () -> new ApiException(ExceptionEnum.NOT_FOUND_USER)
+//                    () -> new IllegalArgumentException("없는 이메일 입니다.")
             );
 
             // 비밀번호 확인
             if(!passwordEncoder.matches(userPassword, user.getUserPassword())){
-                return new ResponseDto("비밀번호를 확인해주세요!!", HttpStatus.BAD_REQUEST);
+                throw new ApiException(ExceptionEnum.BAD_REQUEST);
+//                return new ResponseDto("비밀번호를 확인해주세요!!", HttpStatus.BAD_REQUEST);
             }
 
             //username (ID) 정보로 Token 생성
@@ -96,10 +106,11 @@ public class UserService {
 
             //응답 헤더에 토큰 추가
             setHeader(response, tokenDto, user.getUserEmail());
-            return new ResponseDto("성공", HttpStatus.OK);
+            Message message = Message.setSuccess(StatusEnum.OK, "로그인 성공");
+            return new ResponseEntity<>(message, HttpStatus.OK);
 
         } catch (IllegalArgumentException e) {
-            return new ResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -111,12 +122,13 @@ public class UserService {
 
 
     @Transactional
-    public ResponseDto logout(String userEmail) {
+    public ResponseEntity<Message> logout(String userEmail) {
         RefreshToken refreshToken = refreshTokenRepository.findRefreshTokenByUserEmail(userEmail)
-                .orElseThrow( () -> new IllegalArgumentException("리프레시 토큰 없습니다~"));
-
+                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_REFRESH_TOKEN)
+                );
         refreshTokenRepository.delete(refreshToken);
-
-        return new ResponseDto("로그아웃 성공", HttpStatus.OK);
+        Message message = Message.setSuccess(StatusEnum.OK, "로그 아웃");
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }
+
