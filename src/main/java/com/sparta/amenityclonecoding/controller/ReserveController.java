@@ -11,24 +11,44 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "ReserveController", description = "숙박업소 등록/조회 정보 Controller")
+@Tag(name = "ReserveController", description = "예약 정보 Controller")
 @RequestMapping("/api/reserve")
 public class ReserveController {
     private final ReserveService reserveService;
 
     // 예약 조회
-    @ResponseBody
+    @Operation(summary = "호텔/펜션 예약 등록 API" , description = "호텔/펜션에서 예약 등록 했을 때 ")
+    @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "예약 등록할 때")})
     @GetMapping("/myreservelist")
     public List<ReserveResponseDto> getAmenityInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return reserveService.getReserveInfo(userDetails.getUser());
     }
+
+    /*
+    @Operation(summary = "호텔/펜션 가예약 API" , description = "호텔/펜션에서 가예약 페이지 눌렀을 때 ")
+    @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "가예약 때")})
+    @PostMapping("/getReserve")
+    public List<ReserveResponseDto> getAmenityInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return reserveService.getReserveInfo(userDetails.getUser());
+    }
+     */
+
+    @Operation(summary = "예약 날짜 확인 API" , description = "날짜 조회시 예약정보 반영")
+    @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "날짜 조회시 예약정보 반영")})
+    @PostMapping("/getReserve/{amenityId}/{startDat}/{endDat}")
+    public List<ChkRoomResponseDto> chkReserveDat(@PathVariable Long amenityId, @PathVariable String startDat, @PathVariable String endDat) throws ParseException {
+        return reserveService.chkReservDat(amenityId, startDat, endDat);
+    }
+
 
     // 예약 등록
     @Operation(summary = "호텔/펜션 예약 등록 API" , description = "호텔/펜션에서 예약 등록 했을 때 ")
@@ -40,6 +60,8 @@ public class ReserveController {
     }
 
     // 예약 삭제
+    @Operation(summary = "호텔/펜션 예약 등록 API" , description = "호텔/펜션에서 예약 등록 했을 때 ")
+    @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "예약 등록할 때")})
     @ResponseBody
     @DeleteMapping("/myreservelist/delete/{reserveId}")
     public ResponseDto deleteAmenityInfo(@PathVariable Long reserveId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
