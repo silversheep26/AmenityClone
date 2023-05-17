@@ -1,23 +1,26 @@
 package com.sparta.amenityclonecoding.service;
 
-import com.sparta.amenityclonecoding.dto.ReserveRequestDto;
-import com.sparta.amenityclonecoding.dto.ReserveResponseDto;
-import com.sparta.amenityclonecoding.dto.ResponseDto;
-import com.sparta.amenityclonecoding.dto.UserRequestDto;
+import com.sparta.amenityclonecoding.dto.*;
 import com.sparta.amenityclonecoding.entity.*;
 import com.sparta.amenityclonecoding.repository.*;
 import com.sparta.amenityclonecoding.security.UserDetailsImpl;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Date.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class ReserveService {
     private final RoomRepository roomRepository;
     private final AmenityRepository amenityRepository;
     private final AmenityImgRepository amenityImgRepository;
+    private final RoomImgRepository roomImgRepository;
 
     @Transactional
     public List<ReserveResponseDto> getReserveInfo(User user) {
@@ -116,5 +120,45 @@ public class ReserveService {
         return true;
     }
 
+    @Transactional
+    public List<ChkRoomResponseDto> chkReservDat(Long amenityId, String startDat, String endDat) throws ParseException {
+        Date sDat = new SimpleDateFormat("yyyyMMdd").parse(startDat);
+        Date eDat = new SimpleDateFormat("yyyyMMdd").parse(endDat);
+        long diffSec = (((Date) eDat).getTime() - sDat.getTime()) / 1000;
+        Long dayChk = diffSec / (24*60*60);
+        Long totalPrice = 0L;
+        Long roomPrice = 0L;
+        Long roomId = 0L;
+        boolean chk;
 
+
+        //1. 객실정보 list 먼저 구성
+        //2. 구성 후 해당 list 를 포이치
+        //3. 새로운 타입의 dto list에 옮겨담으면서 몇박인지, 총금액 필드 추가
+        //4. 조회하는 날짜에 예약정보가 있는방은 제외
+        //연관관계가 없으므로 룸값을 전부 조회해야함 -> 그리고 제외
+
+        List<Room> roomList = roomRepository.findRoomByAmenity_AmenityId(amenityId);
+        List<ChkRoomResponseDto> chkRoomResponseDtoList = new ArrayList<>();
+
+        for(Room room: roomList) {
+            roomId = room.getRoomId();
+            chk = reserveRepository.chkReserve(startDat, endDat, amenityId, roomId);
+            roomPrice = Long.valueOf(room.getRoomPrice());
+            totalPrice = roomPrice * dayChk;
+            //예약정보가 존재한다면 해당값은 보여주지 않음
+            if(!chk) {
+                ChkRoomResponseDto chkRoomResponseDto = new ChkRoomResponseDto(room.getRoomNm(), "예약가능", roomPrice, totalPrice, dayChk);
+                List<RoomImg> roomImgList = roomImgRepository.findRoomImgByRoom_RoomId(roomId);
+                List<RoomImgDto> roomImgDtoList = new ArrayList<>();
+                for(RoomImg roomImg: roomImgList) {
+                    RoomImgDto roomImgDto = new RoomImgDto(roomImg);
+                    roomImgDtoList.add(roomImgDto);
+                }
+                chkRoomResponseDto.setRoomImgDtoList(roomImgDtoList);
+                chkRoomResponseDtoList.add(chkRoomResponseDto);
+            }
+        }
+        return chkRoomResponseDtoList;
+    }
 }
