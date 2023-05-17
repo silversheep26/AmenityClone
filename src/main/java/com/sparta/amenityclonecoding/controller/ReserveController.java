@@ -15,7 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -45,8 +48,15 @@ public class ReserveController {
     @Operation(summary = "예약 날짜 확인 API" , description = "날짜 조회시 예약정보 반영")
     @ApiResponses(value ={@ApiResponse(responseCode= "200", description = "날짜 조회시 예약정보 반영")})
     @PostMapping("/getReserve/{amenityId}/{startDat}/{endDat}")
-    public List<ChkRoomResponseDto> chkReserveDat(@PathVariable Long amenityId, @PathVariable String startDat, @PathVariable String endDat) throws ParseException {
-        return reserveService.chkReservDat(amenityId, startDat, endDat);
+    public List<ChkRoomResponseDto> chkReserveDat(
+            @PathVariable Long amenityId,
+            @PathVariable String startDat,
+            @PathVariable String endDat
+    ) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        Date startDate = dateFormat.parse(startDat);
+        Date endDate = dateFormat.parse(endDat);
+        return reserveService.chkReservDat(amenityId, startDate, endDate);
     }
 
 

@@ -121,10 +121,12 @@ public class ReserveService {
     }
 
     @Transactional
-    public List<ChkRoomResponseDto> chkReservDat(Long amenityId, String startDat, String endDat) throws ParseException {
-        Date sDat = new SimpleDateFormat("yyyyMMdd").parse(startDat);
-        Date eDat = new SimpleDateFormat("yyyyMMdd").parse(endDat);
-        long diffSec = (((Date) eDat).getTime() - sDat.getTime()) / 1000;
+    public List<ChkRoomResponseDto> chkReservDat(Long amenityId, Date startDat, Date endDat) throws ParseException {
+//        Date sDat = new SimpleDateFormat("yyyyMMdd").parse(startDat);
+
+//        Date eDat = new SimpleDateFormat("yyyyMMdd").parse(endDat);
+        long diffSec = (((Date) endDat).getTime() - startDat.getTime()) / 1000;
+
         Long dayChk = diffSec / (24*60*60);
         Long totalPrice = 0L;
         Long roomPrice = 0L;
@@ -143,12 +145,19 @@ public class ReserveService {
 
         for(Room room: roomList) {
             roomId = room.getRoomId();
-            chk = reserveRepository.chkReserve(startDat, endDat, amenityId, roomId);
-            roomPrice = Long.valueOf(room.getRoomPrice());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String strNowDate = simpleDateFormat.format(startDat);
+            String endNowDate = simpleDateFormat.format(endDat);
+            chk = reserveRepository.chkReserve(strNowDate, endNowDate, amenityId, roomId);
+            String valueWithComma = room.getRoomPrice();
+            String valueWithoutComma = valueWithComma.replaceAll(",", "");
+            int number = Integer.parseInt(valueWithoutComma);
+            roomPrice = Long.valueOf(number);
             totalPrice = roomPrice * dayChk;
             //예약정보가 존재한다면 해당값은 보여주지 않음
+            String reserveStr = chk == false ? "예약 가능":"예약 마감";
             if(!chk) {
-                ChkRoomResponseDto chkRoomResponseDto = new ChkRoomResponseDto(room.getRoomNm(), "예약가능", roomPrice, totalPrice, dayChk);
+                ChkRoomResponseDto chkRoomResponseDto = new ChkRoomResponseDto(room.getRoomNm(), reserveStr, roomPrice, totalPrice, dayChk);
                 List<RoomImg> roomImgList = roomImgRepository.findRoomImgByRoom_RoomId(roomId);
                 List<RoomImgDto> roomImgDtoList = new ArrayList<>();
                 for(RoomImg roomImg: roomImgList) {
