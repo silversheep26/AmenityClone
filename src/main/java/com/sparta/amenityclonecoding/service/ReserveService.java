@@ -126,6 +126,7 @@ public class ReserveService {
 
 //        Date eDat = new SimpleDateFormat("yyyyMMdd").parse(endDat);
         long diffSec = (((Date) endDat).getTime() - startDat.getTime()) / 1000;
+
         Long dayChk = diffSec / (24*60*60);
         Long totalPrice = 0L;
         Long roomPrice = 0L;
