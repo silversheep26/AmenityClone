@@ -2,8 +2,12 @@ package com.sparta.amenityclonecoding.service;
 
 import com.sparta.amenityclonecoding.dto.*;
 import com.sparta.amenityclonecoding.entity.*;
+import com.sparta.amenityclonecoding.exception.Message;
+import com.sparta.amenityclonecoding.exception.StatusEnum;
 import com.sparta.amenityclonecoding.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +32,7 @@ public class AmenityService {
 
     // 하나 눌렀을 때 :
     @Transactional(readOnly = true)
-    public AmenityDetailDto getAmenityDetail(Long amenityId) {
+    public ResponseEntity<Message> getAmenityDetail(Long amenityId) {
         Amenity amenity = amenityRepository.findAmenityByAmenityId(amenityId);
         AmenityDetailDto amenityDetailDto = new AmenityDetailDto(amenity);
 
@@ -80,12 +84,13 @@ public class AmenityService {
         amenityDetailDto.setRoomDtoList(roomDtoList);
         amenityDetailDto.setReviewDtoList(reviewDtoList);
 
-        return amenityDetailDto;
+        Message message = Message.setSuccess(StatusEnum.OK, "성공", amenityDetailDto);
+        return new ResponseEntity<Message>(message, HttpStatus.OK);
     }
 
     // 호텔과 펜션 목록 조회
     @Transactional(readOnly = true)
-    public List<AmenityDto> getAmenityInfo(Long amenityType) {
+    public ResponseEntity<Message> getAmenityInfo(Long amenityType) {
         List<Amenity> amenityList = new ArrayList<>();
         List<AmenityDto> amenityDtoList = new ArrayList<>();
 
@@ -110,12 +115,13 @@ public class AmenityService {
             amenityDtoList.add(amenityDto);
         }
 
-        return amenityDtoList;
+        Message message = Message.setSuccess(StatusEnum.OK, "성공", amenityDtoList);
+        return new ResponseEntity<Message>(message, HttpStatus.OK);
     }
 
     // 호텔에서 적용 눌렀을 때
     @Transactional(readOnly = true)
-    public List<AmenityDto> getAmenityFilter(AmenityRequestDto amenityRequestDto) {
+    public ResponseEntity<Message> getAmenityFilter(AmenityRequestDto amenityRequestDto) {
         List<Amenity> amenityList = new ArrayList<>();
         List<AmenityImgDto> amenityImgDtoList = new ArrayList<>();
         List<AmenityDto> amenityDtoList = new ArrayList<>();
@@ -135,11 +141,12 @@ public class AmenityService {
             amenityDto.setAmenityImgDtoList(amenityImgDtoList);
         }
 
-        return amenityDtoList;
+        Message message = Message.setSuccess(StatusEnum.OK, "성공", amenityDtoList);
+        return new ResponseEntity<Message>(message, HttpStatus.OK);
     }
 
     @Transactional(readOnly = true)
-    public List<AmenityDto> search(String keyword) {
+    public ResponseEntity<Message> search(String keyword) {
 //        List<AmenityDto> amenityDtoList = amenityRepository.findByKeyword(keyword)
 //                .stream()
 //                .map(AmenityDto::new)
@@ -163,7 +170,9 @@ public class AmenityService {
         }
 
 
-        return amenityDtoList;
+//        return amenityDtoList;
+        Message message = Message.setSuccess(StatusEnum.OK, "성공", amenityDtoList);
+        return new ResponseEntity<Message>(message, HttpStatus.OK);
     }
 
 }

@@ -44,6 +44,5 @@ public class ReviewController {
                                    @RequestPart( value = "image", required = false) List<MultipartFile> image,
                                    @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
         return reviewService.writeReview(amenityId, requestDto, image, userDetails.getUser());
-//        return reviewService.writeReview(amenityId, image, userDetails.getUser());
     }
 }
