@@ -32,7 +32,7 @@
 ## 📖 API 명세서
 <details>
   <summary> 펼쳐보기 </summary>
-<img width="964" alt="hh66 API 명세서" src="">
+<img width="964" alt="여기 어떠니 API 명세서" src="">
 </details>
 
 ## 👨‍👩‍👧팀원
