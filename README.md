@@ -26,7 +26,7 @@
 
 
 ## 📰 ERD
-![erd](https://github.com/AmenityCloneCoding/AmenityClone/assets/122955367/291756b4-a0a8-420f-91a7-dfa8a029c504)
+![image](https://github.com/silversheep26/AmenityClone/assets/122955367/68059035-c4c5-46ce-9713-4d9fdb9fc265)
 
  
 ## 📖 API 명세서
